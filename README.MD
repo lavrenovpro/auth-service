@@ -1,6 +1,9 @@
-# Building and running auth-service
+# Building and running auth-service 
 
+## docker-compose stack with mongo replica set
 ```shell
+git clone https://github.com/lavrenovpro/auth-service.git
+cd auth-service
 docker build -t auth-service .
 docker-compose up -d
 docker exec -it localmongo1 mongo  --quiet --eval "rs.initiate(\
