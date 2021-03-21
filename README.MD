@@ -1,21 +1,11 @@
 # Building and running auth-service 
 
-## docker-compose stack with mongo replica set
+## docker-compose stack with mongo
 ```shell
 git clone https://github.com/lavrenovpro/auth-service.git
 cd auth-service
 docker build -t auth-service .
 docker-compose up -d
-docker exec -it localmongo1 mongo  --quiet --eval "rs.initiate(\
-    {\
-        _id: 'rs0',\
-        members: [\
-            {_id: 0, host: \"mongo1:27017\", priority: 1},\
-            {_id: 1, host: \"mongo2:27017\", priority: 0.5},\
-            {_id: 2, host: \"mongo3:27017\", priority: 0.5}\
-        ]\
-    }\
-)"
 ```
 
 # Curl examples

@@ -1,8 +1,8 @@
 version: "3"
 services:
-  mongo1:
-    hostname: mongo1
-    container_name: localmongo1
+  mongo:
+    hostname: mongo
+    container_name: localmongo
     image: mongo:4.4.4-bionic
     environment:
       - MONGO_INITDB_DATABASE=auth
@@ -11,39 +11,15 @@ services:
     ports:
       - 27011:27017
     restart: always
-    volumes:
-    - ./init-repl-set.js:/docker-entrypoint-initdb.d/init-repl-set.js:ro
-    entrypoint: [ "/usr/bin/mongod", "--bind_ip_all", "--replSet", "rs0" ]
-  mongo2:
-    hostname: mongo2
-    container_name: localmongo2
-    image: mongo:4.4.4-bionic
-    expose:
-      - 27017
-    ports:
-      - 27012:27017
-    restart: always
-    entrypoint: [ "/usr/bin/mongod", "--bind_ip_all", "--replSet", "rs0" ]
-  mongo3:
-    hostname: mongo3
-    container_name: localmongo3
-    image: mongo:4.4.4-bionic
-    expose:
-      - 27017
-    ports:
-      - 27013:27017
-    restart: always
-    entrypoint: [ "/usr/bin/mongod", "--bind_ip_all", "--replSet", "rs0" ]
+    entrypoint: [ "/usr/bin/mongod", "--bind_ip_all" ]
   auth-service:
     hostname: auth-service
     container_name: auth-service
     image: auth-service:latest
     depends_on:
-      - mongo1
-      - mongo2
-      - mongo3
+      - mongo
     environment:
-      - MONGO_URL=mongodb://mongo1:27017,mongo2:27017,mongo3:27017/?replicaSet=rs0
+      - MONGO_URL=mongodb://mongo:27017
       - ACCESS_TOKEN_VALID_HOURS=1
       - SECRET_KEY=SecretKey
       - ISSUER=auth.company.com
